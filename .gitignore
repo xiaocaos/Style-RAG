@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+
+# Data (runtime generated)
+chroma-db/
+chat_history/
+logs/
+traces/
+md5.text
+
+# Evaluation results
+eval_results.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/

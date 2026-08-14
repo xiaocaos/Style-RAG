@@ -1,0 +1,47 @@
+[project]
+name = "clothing-rag"
+version = "1.0.0"
+description = "基于高级 RAG 流水线的服装智能客服系统"
+requires-python = ">=3.10"
+dependencies = [
+    "langchain>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langchain-community>=0.3.0",
+    "langchain-chroma>=0.2.0",
+    "langchain-text-splitters>=0.3.0",
+    "dashscope>=1.20.0",
+    "streamlit>=1.40.0",
+    "pydantic-settings>=2.0.0",
+    "rank-bm25>=0.2.2",
+    "networkx>=3.0",
+]
+
+[project.optional-dependencies]
+reranker = [
+    "sentence-transformers>=3.0.0",
+]
+eval = [
+    "ragas>=0.2.0",
+    "datasets>=2.0.0",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6.0",
+]
+all = [
+    "clothing-rag[reranker,eval,dev]",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
