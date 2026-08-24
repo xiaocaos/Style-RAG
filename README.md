@@ -109,7 +109,7 @@ cp .env.example .env
 ### 3. 启动应用
 
 ```bash
-streamlit run app.py
+uv run python -m streamlit run app.py
 ```
 
 访问 http://localhost:8501
