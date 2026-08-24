@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from langchain_community.chat_models.tongyi import ChatTongyi
+import os
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
 from src.config import settings
@@ -21,10 +22,12 @@ class QueryRewriter:
 
     def __init__(self, n_variants: int = 3) -> None:
         self._n = n_variants
-        self._llm = ChatTongyi(
+        self._llm = ChatOpenAI(
             model=settings.chat_model,
             temperature=0.3,
             max_tokens=256,
+            api_key=os.environ.get("DASHSCOPE_API_KEY"),
+            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         )
 
     def rewrite(self, question: str) -> list[str]:

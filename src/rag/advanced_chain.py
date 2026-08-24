@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass, field
 from typing import Any
 
 from langchain_chroma import Chroma
-from langchain_community.chat_models.tongyi import ChatTongyi
+from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
@@ -71,11 +72,13 @@ class AdvancedRAGChain:
         self._rewriter = QueryRewriter(n_variants=3)
         self._hybrid = HybridRetriever(self._kb.vector_store)
         self._reranker = Reranker()
-        self._llm = ChatTongyi(
+        self._llm = ChatOpenAI(
             model=settings.chat_model,
             temperature=settings.temperature,
             max_tokens=settings.max_tokens,
             streaming=True,
+            api_key=os.environ.get("DASHSCOPE_API_KEY"),
+            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         )
         self._prompt = ChatPromptTemplate.from_messages([
             ("system", SYSTEM_PROMPT),

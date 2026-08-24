@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # ── DashScope ──────────────────────────────────────────────
     dashscope_api_key: str = ""
     embedding_model: str = "text-embedding-v1"
-    chat_model: str = "qwen-plus"
+    chat_model: str = "qwen3.8-max"
 
     # ── ChromaDB ───────────────────────────────────────────────
     chroma_collection: str = "RAG"

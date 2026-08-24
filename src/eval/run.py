@@ -15,7 +15,8 @@ from src.logging_config import logger
 
 def _simple_rag_answer(question: str, kb: KnowledgeBase) -> str:
     """基础 RAG：直接检索 top-k + LLM 生成（无 Rewriting/Reranking）。"""
-    from langchain_community.chat_models.tongyi import ChatTongyi
+    import os
+    from langchain_openai import ChatOpenAI
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate
 
@@ -25,7 +26,12 @@ def _simple_rag_answer(question: str, kb: KnowledgeBase) -> str:
     prompt = ChatPromptTemplate.from_template(
         "根据以下资料回答问题。\n\n资料：{context}\n\n问题：{question}"
     )
-    llm = ChatTongyi(model=settings.chat_model, temperature=0.1)
+    llm = ChatOpenAI(
+        model=settings.chat_model,
+        temperature=0.1,
+        api_key=os.environ.get("DASHSCOPE_API_KEY"),
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    )
     chain = prompt | llm | StrOutputParser()
     return chain.invoke({"context": context, "question": question})
 

@@ -14,7 +14,7 @@ max_split_str_number = 1000
 similarity_threshold = 1
 
 embedding_chat_model = 'text-embedding-v1'
-chat_model = 'qwen-turbo'
+chat_model = 'qwen3.8-max'
 
 session_config = {
         'configurable':{'session_id':'user_001'},

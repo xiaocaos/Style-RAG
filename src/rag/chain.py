@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
-from langchain_community.chat_models.tongyi import ChatTongyi
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -62,11 +63,13 @@ class RAGChain:
 
     def __init__(self, knowledge_base: KnowledgeBase | None = None) -> None:
         self._kb = knowledge_base or KnowledgeBase()
-        self._llm = ChatTongyi(
+        self._llm = ChatOpenAI(
             model=settings.chat_model,
             temperature=settings.temperature,
             max_tokens=settings.max_tokens,
             streaming=True,
+            api_key=os.environ.get("DASHSCOPE_API_KEY"),
+            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         )
         self._prompt = ChatPromptTemplate.from_messages([
             ("system", SYSTEM_PROMPT),

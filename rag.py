@@ -2,9 +2,10 @@ from langchain_core.runnables import RunnablePassthrough,RunnableWithMessageHist
 from vector_stores import VectorStoreService
 import config_data as config
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
-from langchain_community.chat_models.tongyi import ChatTongyi
+from langchain_openai import ChatOpenAI
 from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_core.output_parsers import StrOutputParser
+import os
 
 from file_history_store import get_history_chat
 
@@ -39,7 +40,12 @@ class RagService(object):
                 ('user','请回答用户提问{input}')
             ]
         )
-        self.chat_model = ChatTongyi(model = config.chat_model,streaming=True)
+        self.chat_model = ChatOpenAI(
+            model=config.chat_model,
+            streaming=True,
+            api_key=os.environ.get("DASHSCOPE_API_KEY"),
+            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        )
         self.chain = self.__get_chain()
 
     def __get_chain(self):
